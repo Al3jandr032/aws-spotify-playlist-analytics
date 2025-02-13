@@ -72,3 +72,57 @@ La API de Spotify requiere autenticación **OAuth 2.0**. El token solo es válid
    -H "Content-Type: application/x-www-form-urlencoded" \
    -d "grant_type=client_credentials" \
    -u CLIENT_ID:CLIENT_SECRET
+   ```
+
+
+
+### **3️⃣ Obtén el Token**
+   La respuesta será un JSON con el access_token, que dura 3600 segundos:
+
+   ```
+   {
+    "access_token": "BQD123456789...",
+    "token_type": "Bearer",
+    "expires_in": 3600
+    }
+
+   ```
+
+   ### **4️⃣ Usa el Token en una Petición API**
+   La respuesta será un JSON con el access_token, que dura 3600 segundos:
+
+   ```
+curl -X GET "https://api.spotify.com/v1/playlists/{playlist_id}/tracks" \
+-H "Authorization: Bearer BQD123456789..."
+
+   ```
+
+   ### **🏗️ Ejecución del AWS Glue Notebook**
+   Una vez que el Glue Job de transformación ha procesado los datos en Parquet, puedes ejecutar el AWS Glue Notebook para analizar los datos.
+
+   📌 Ejecutar el Glue Job de Transformación de Datos
+
+   ```
+    aws glue start-job-run --job-name spotify-glue-transformation
+
+   ```
+
+   📌 Ejecutar el Glue Notebook para Generar Indicadores
+
+   ```
+    aws glue start-notebook --name spotify-analytics-notebook
+
+   ```
+
+   🔹 Explicación:
+
+    spotify-glue-transformation: Nombre del Glue Job que transforma los datos de JSON a Parquet.
+    spotify-analytics-notebook: Nombre del Glue Notebook que carga los datos Parquet y genera gráficos.
+
+
+🏁 Conclusión
+
+Este proyecto demuestra cómo utilizar AWS Glue para crear un pipeline escalable, eficiente y serverless que analiza datos de una playlist de Spotify.
+Gracias a AWS Glue y otras herramientas, podemos procesar grandes volúmenes de datos con mínima configuración y bajo costo.
+   
+
